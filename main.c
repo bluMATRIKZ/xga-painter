@@ -28,22 +28,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define MAX_HEIGHT 256
 
 SDL_Color palette[16] = {
-    {0x00, 0x00, 0x00, 255}, // 0 Black
-    {0x80, 0x00, 0x00, 255}, // 1 Maroon
-    {0x00, 0x80, 0x00, 255}, // 2 Green
-    {0x80, 0x80, 0x00, 255}, // 3 Olive
-    {0x00, 0x00, 0x80, 255}, // 4 Navy
-    {0x80, 0x00, 0x80, 255}, // 5 Purple
-    {0x00, 0x80, 0x80, 255}, // 6 Teal
-    {0xC0, 0xC0, 0xC0, 255}, // 7 Silver
-    {0x80, 0x80, 0x80, 255}, // 8 Gray
-    {0xFF, 0x00, 0x00, 255}, // 9 Red
-    {0x00, 0xFF, 0x00, 255}, // 10 Lime
-    {0xFF, 0xFF, 0x00, 255}, // 11 Yellow
-    {0x00, 0x00, 0xFF, 255}, // 12 Blue
-    {0xFF, 0x00, 0xFF, 255}, // 13 Fuchsia
-    {0x00, 0xFF, 0xFF, 255}, // 14 Aqua
-    {0xFF, 0xFF, 0xFF, 255}  // 15 White
+    {0x00, 0x00, 0x00, 255}, // a Black
+    {0x80, 0x00, 0x00, 255}, // b Maroon
+    {0x00, 0x80, 0x00, 255}, // c Green
+    {0x80, 0x80, 0x00, 255}, // d Olive
+    {0x00, 0x00, 0x80, 255}, // e Navy
+    {0x80, 0x00, 0x80, 255}, // f Purple
+    {0x00, 0x80, 0x80, 255}, // g Teal
+    {0xC0, 0xC0, 0xC0, 255}, // h Silver
+    {0x80, 0x80, 0x80, 255}, // i Gray
+    {0xFF, 0x00, 0x00, 255}, // j Red
+    {0x00, 0xFF, 0x00, 255}, // k Lime
+    {0xFF, 0xFF, 0x00, 255}, // l Yellow
+    {0x00, 0x00, 0xFF, 255}, // m Blue
+    {0xFF, 0x00, 0xFF, 255}, // n Fuchsia
+    {0x00, 0xFF, 0xFF, 255}, // o Aqua
+    {0xFF, 0xFF, 0xFF, 255}  // p White
 };
 
 int map_key(SDL_Keycode code) {
@@ -58,27 +58,29 @@ void save_xga_file(uint8_t pixels[MAX_HEIGHT][MAX_WIDTH], int width, int height,
     FILE* f = fopen(filename, "w");
     if (!f) return;
 
-    fprintf(f, "xga-1;\n%dx%d;\n", width, height);
+    fprintf(f, "%dx%d;", width, height);
 
-    int total = width * height;
-    int count = 0, last = pixels[0][0];
+    int count = 0;
+    uint8_t last = pixels[0][0];
 
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            int px = pixels[y][x];
+            uint8_t px = pixels[y][x];
             if (px == last) {
                 count++;
             } else {
-                fprintf(f, "%d:%d;\n", count, last);
+                if (count > 1) fprintf(f, "%d%c", count, 'a' + last);
+                else fprintf(f, "%c", 'a' + last);
                 count = 1;
                 last = px;
             }
         }
     }
 
-    if (count > 0)
-        fprintf(f, "%d:%d;\n", count, last);
+    if (count > 1) fprintf(f, "%d%c", count, 'a' + last);
+    else fprintf(f, "%c", 'a' + last);
 
+    fprintf(f, "\n");
     fclose(f);
 }
 
