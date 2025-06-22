@@ -1,12 +1,3 @@
-/*
-XGA Painter - A paint program for my 4-bit color .xga format
-Copyright (C) 2025 Connor Thomson
-
-GPL v3 licensed - see <https://www.gnu.org/licenses/>
-
-Compile: gcc xgapainter.c -o xgapainter `sdl2-config --cflags --libs`
-*/
-
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
