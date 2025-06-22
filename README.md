@@ -6,9 +6,14 @@ Compile & install:
 make
 ```
 
-ONLY Compile:
+Compile:
 ```
 make compile
+```
+
+Install:
+```
+make install
 ```
 
 Uninstall:
