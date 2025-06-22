@@ -29,3 +29,7 @@ Run:
 ```
 xga-painter
 ```
+or if you did not install it:
+```
+./xga-painter
+```
